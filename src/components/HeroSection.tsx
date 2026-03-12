@@ -7,7 +7,7 @@ const container = {
 
 const item = {
   hidden: { y: 20, opacity: 0 },
-  show: { y: 0, opacity: 1, transition: { type: "spring", duration: 0.4, bounce: 0 } },
+  show: { y: 0, opacity: 1, transition: { type: "spring" as const, duration: 0.4, bounce: 0 } },
 };
 
 const HeroSection = () => {

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import portfolioPortrait from "@/assets/portfolio-portrait.jpg";
 import portfolioWedding from "@/assets/portfolio-wedding.jpg";
 import portfolioProduct from "@/assets/portfolio-product.jpg";
 import portfolioHeadshot from "@/assets/portfolio-headshot.jpg";
@@ -7,8 +8,9 @@ import portfolioFood from "@/assets/portfolio-food.jpg";
 
 const images = [
   { src: portfolioWedding, category: "Wedding", span: "md:col-span-7 md:row-span-2" },
+  { src: portfolioPortrait, category: "Portrait", span: "md:col-span-5" },
   { src: portfolioProduct, category: "Product", span: "md:col-span-5" },
-  { src: portfolioHeadshot, category: "Headshot", span: "md:col-span-5" },
+  { src: portfolioHeadshot, category: "Headshot", span: "md:col-span-7" },
   { src: portfolioLandscape, category: "Landscape", span: "md:col-span-7" },
   { src: portfolioFood, category: "Product", span: "md:col-span-5" },
 ];
