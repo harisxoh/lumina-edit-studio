@@ -92,75 +92,77 @@ const ContactSection = () => {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="p-8 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Your name" {...field} className="bg-background/80 border-white/10 focus:border-accent focus:ring-accent/20 h-12" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input placeholder="Email address" {...field} className="bg-background/80 border-white/10 focus:border-accent focus:ring-accent/20 h-12" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
-                name="name"
+                name="project"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="Your name" {...field} className="bg-background input-shadow focus:input-focus-shadow border-none h-12" />
-                    </FormControl>
+                  <FormItem className="mb-4">
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="bg-background/80 border-white/10 focus:border-accent focus:ring-accent/20 h-12">
+                          <SelectValue placeholder="Project type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Portrait Retouching">Portrait Retouching</SelectItem>
+                        <SelectItem value="Wedding Photo Editing">Wedding Photo Editing</SelectItem>
+                        <SelectItem value="Product Photography">Product Photography</SelectItem>
+                        <SelectItem value="Color Correction">Color Correction</SelectItem>
+                        <SelectItem value="Background Removal">Background Removal</SelectItem>
+                        <SelectItem value="Object/Person Removal">Object/Person Removal</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name="email"
+                name="message"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Email address" {...field} className="bg-background input-shadow focus:input-focus-shadow border-none h-12" />
+                      <Textarea 
+                        placeholder="Tell me about your project..." 
+                        className="bg-background/80 border-white/10 focus:border-accent focus:ring-accent/20 min-h-[150px] resize-none" 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="project"
-              render={({ field }) => (
-                <FormItem>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="bg-background input-shadow focus:input-focus-shadow border-none h-12">
-                        <SelectValue placeholder="Project type" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Portrait Retouching">Portrait Retouching</SelectItem>
-                      <SelectItem value="Wedding Photo Editing">Wedding Photo Editing</SelectItem>
-                      <SelectItem value="Product Photography">Product Photography</SelectItem>
-                      <SelectItem value="Color Correction">Color Correction</SelectItem>
-                      <SelectItem value="Background Removal">Background Removal</SelectItem>
-                      <SelectItem value="Object/Person Removal">Object/Person Removal</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Tell me about your project..." 
-                      className="bg-background input-shadow focus:input-focus-shadow border-none min-h-[150px] resize-none" 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <motion.button
               type="submit"
