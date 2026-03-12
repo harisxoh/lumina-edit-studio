@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 
 const Navbar = () => {
@@ -9,26 +11,30 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-0 left-0 right-0 z-50 bg-background/40 backdrop-blur-xl border-b border-white/5"
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <button onClick={() => scrollTo("hero")} className="font-bold text-lg tracking-tight text-foreground">
-          Studio
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <button 
+          onClick={() => scrollTo("hero")} 
+          className="font-black text-2xl tracking-tighter text-white hover:opacity-80 transition-opacity"
+        >
+          STUDIO<span className="text-accent">.</span>
         </button>
-        <div className="flex items-center gap-8">
-          <button onClick={() => scrollTo("work")} className="label-text text-muted-foreground hover:text-foreground transition-colors">
-            Work
-          </button>
-          <button onClick={() => scrollTo("services")} className="label-text text-muted-foreground hover:text-foreground transition-colors">
-            Services
-          </button>
-          <button onClick={() => scrollTo("pricing")} className="label-text text-muted-foreground hover:text-foreground transition-colors">
-            Pricing
-          </button>
+        
+        <div className="hidden md:flex items-center gap-10">
+          {["work", "services", "pricing"].map((item) => (
+            <button 
+              key={item}
+              onClick={() => scrollTo(item)} 
+              className="label-text text-muted-foreground hover:text-white transition-colors"
+            >
+              {item}
+            </button>
+          ))}
           <button
             onClick={() => scrollTo("contact")}
-            className="h-10 px-5 rounded-lg bg-primary text-primary-foreground text-sm font-medium btn-shadow hover:btn-shadow-hover transition-all duration-300"
+            className="h-11 px-6 rounded-full bg-white text-black text-sm font-bold hover:scale-105 transition-all duration-300 active:scale-95"
           >
             Start a Project
           </button>
