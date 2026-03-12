@@ -44,6 +44,12 @@ const Navbar = () => {
               View Work
             </button>
             <button 
+              onClick={() => scrollTo("services")} 
+              className="label-text text-muted-foreground hover:text-white transition-colors whitespace-nowrap"
+            >
+              Services
+            </button>
+            <button 
               onClick={() => scrollTo("pricing")} 
               className="label-text text-muted-foreground hover:text-white transition-colors whitespace-nowrap"
             >
