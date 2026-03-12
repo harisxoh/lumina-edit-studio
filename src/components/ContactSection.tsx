@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { 
   Form, 
   FormControl, 
@@ -21,6 +22,8 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -32,6 +35,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const ContactSection = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,10 +47,30 @@ const ContactSection = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted:", data);
-    toast.success("Message sent! I'll get back to you within 24 hours.");
-    form.reset();
+  const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true);
+    try {
+      const { error } = await supabase
+        .from("contact_requests")
+        .insert([
+          { 
+            name: data.name, 
+            email: data.email, 
+            project_type: data.project, 
+            message: data.message 
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast.success("Message sent! I'll get back to you within 24 hours.");
+      form.reset();
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error("Failed to send message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -139,11 +164,13 @@ const ContactSection = () => {
 
             <motion.button
               type="submit"
+              disabled={isSubmitting}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="h-12 px-8 rounded-lg bg-accent text-accent-foreground font-medium btn-shadow hover:btn-shadow-hover transition-shadow duration-300 w-full"
+              className="h-12 px-8 rounded-lg bg-accent text-accent-foreground font-medium btn-shadow hover:btn-shadow-hover transition-shadow duration-300 w-full flex items-center justify-center gap-2"
             >
-              Send Request
+              {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isSubmitting ? "Sending..." : "Send Request"}
             </motion.button>
           </form>
         </Form>
