@@ -1,14 +1,51 @@
+"use client";
+
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { toast } from "sonner";
+import { 
+  Form, 
+  FormControl, 
+  FormField, 
+  FormItem, 
+  FormMessage 
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from "@/components/ui/select";
+
+const formSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email address"),
+  project: z.string().min(1, "Please select a project type"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const ContactSection = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", project: "", message: "" });
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      project: "",
+      message: "",
+    },
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = (data: FormValues) => {
+    console.log("Form submitted:", data);
     toast.success("Message sent! I'll get back to you within 24 hours.");
-    setFormData({ name: "", email: "", project: "", message: "" });
+    form.reset();
   };
 
   return (
@@ -28,64 +65,88 @@ const ContactSection = () => {
           </p>
         </motion.div>
 
-        <motion.form
-          onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", duration: 0.4, bounce: 0, delay: 0.1 }}
-          className="space-y-4"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Your name"
-              required
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="h-12 rounded-lg px-4 bg-background text-foreground placeholder:text-muted-foreground input-shadow focus:input-focus-shadow focus:outline-none transition-shadow duration-300 w-full"
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Your name" {...field} className="bg-background input-shadow focus:input-focus-shadow border-none h-12" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Email address" {...field} className="bg-background input-shadow focus:input-focus-shadow border-none h-12" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="project"
+              render={({ field }) => (
+                <FormItem>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="bg-background input-shadow focus:input-focus-shadow border-none h-12">
+                        <SelectValue placeholder="Project type" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Portrait Retouching">Portrait Retouching</SelectItem>
+                      <SelectItem value="Wedding Photo Editing">Wedding Photo Editing</SelectItem>
+                      <SelectItem value="Product Photography">Product Photography</SelectItem>
+                      <SelectItem value="Color Correction">Color Correction</SelectItem>
+                      <SelectItem value="Background Removal">Background Removal</SelectItem>
+                      <SelectItem value="Object/Person Removal">Object/Person Removal</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <input
-              type="email"
-              placeholder="Email address"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="h-12 rounded-lg px-4 bg-background text-foreground placeholder:text-muted-foreground input-shadow focus:input-focus-shadow focus:outline-none transition-shadow duration-300 w-full"
+
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="Tell me about your project..." 
+                      className="bg-background input-shadow focus:input-focus-shadow border-none min-h-[150px] resize-none" 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <select
-            value={formData.project}
-            onChange={(e) => setFormData({ ...formData, project: e.target.value })}
-            required
-            className="h-12 rounded-lg px-4 bg-background text-foreground input-shadow focus:input-focus-shadow focus:outline-none transition-shadow duration-300 w-full appearance-none"
-          >
-            <option value="" disabled>Project type</option>
-            <option>Portrait Retouching</option>
-            <option>Wedding Photo Editing</option>
-            <option>Product Photography</option>
-            <option>Color Correction</option>
-            <option>Background Removal</option>
-            <option>Object/Person Removal</option>
-            <option>Other</option>
-          </select>
-          <textarea
-            placeholder="Tell me about your project..."
-            rows={5}
-            required
-            value={formData.message}
-            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-            className="rounded-lg px-4 py-3 bg-background text-foreground placeholder:text-muted-foreground input-shadow focus:input-focus-shadow focus:outline-none transition-shadow duration-300 w-full resize-none"
-          />
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.98 }}
-            className="h-12 px-8 rounded-lg bg-accent text-accent-foreground font-medium btn-shadow hover:btn-shadow-hover transition-shadow duration-300 w-full"
-          >
-            Send Request
-          </motion.button>
-        </motion.form>
+
+            <motion.button
+              type="submit"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="h-12 px-8 rounded-lg bg-accent text-accent-foreground font-medium btn-shadow hover:btn-shadow-hover transition-shadow duration-300 w-full"
+            >
+              Send Request
+            </motion.button>
+          </form>
+        </Form>
       </div>
     </section>
   );

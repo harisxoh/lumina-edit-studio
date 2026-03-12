@@ -23,6 +23,9 @@ const Navbar = () => {
           <button onClick={() => scrollTo("services")} className="label-text text-muted-foreground hover:text-foreground transition-colors">
             Services
           </button>
+          <button onClick={() => scrollTo("pricing")} className="label-text text-muted-foreground hover:text-foreground transition-colors">
+            Pricing
+          </button>
           <button
             onClick={() => scrollTo("contact")}
             className="h-10 px-5 rounded-lg bg-primary text-primary-foreground text-sm font-medium btn-shadow hover:btn-shadow-hover transition-all duration-300"
