@@ -1,8 +1,99 @@
-/* Add this to your existing CSS to ensure particles are visible */  
-canvas {  
-  position: fixed;  
-  top: 0;  
-  left: 0;  
-  z-index: -1;  
-  pointer-events: none;  
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 6%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 10% 4%;
+
+    --secondary: 240 5% 12%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 5% 12%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 210 100% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 5% 15%;
+    --input: 240 5% 15%;
+    --ring: 210 100% 60%;
+
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Satoshi', sans-serif;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(210, 100%, 20%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(240, 100%, 20%, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+    line-height: 1.7;
+  }
+}
+
+@layer utilities {
+  .label-text {
+    font-family: 'Satoshi', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    @apply text-accent;
+  }
+
+  .glass-card {
+    @apply bg-card/40 backdrop-blur-xl border border-white/5;
+  }
+
+  .btn-shadow {
+    box-shadow: 0 0 20px -5px rgba(0,0,0,0.5);
+  }
+
+  .btn-shadow-hover {
+    box-shadow: 0 0 30px -5px rgba(255,255,255,0.1);
+  }
+
+  .image-outline {
+    outline: 1px solid rgba(255,255,255,0.1);
+    outline-offset: -1px;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-b from-white to-white/60;
+  }
 }
