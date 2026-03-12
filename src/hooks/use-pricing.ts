@@ -4,11 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 export interface PricingPlan {
   id: string;
   name: string;
-  price: string;
+  price: string | number;
   description: string;
   features: string[];
-  button_text: string;
-  highlight: boolean;
+  button_text?: string;
+  highlight?: boolean;
   order_index: number;
 }
 
@@ -22,7 +22,6 @@ export const usePricingPlans = () => {
         .order("order_index", { ascending: true });
       
       if (error) {
-        // If the table doesn't exist yet, we'll return null so the component can use fallbacks
         console.error("Error fetching pricing plans:", error);
         return null;
       }
