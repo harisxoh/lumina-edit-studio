@@ -59,13 +59,16 @@ const PricingSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`p-10 rounded-3xl border transition-all duration-500 ${
+                className={`p-10 rounded-3xl border transition-all duration-500 relative overflow-hidden group ${
                   plan.highlight 
                     ? "border-accent bg-accent/5 shadow-[0_0_50px_-12px_rgba(59,130,246,0.3)] scale-105 z-10" 
-                    : "border-white/5 bg-white/[0.03] hover:border-white/10"
+                    : "border-white/10 bg-white/[0.04] hover:border-accent/30 hover:bg-white/[0.06] hover:shadow-[0_0_30px_-10px_rgba(59,130,246,0.2)]"
                 } flex flex-col h-full`}
               >
-                <div className="mb-10">
+                {/* Subtle gradient overlay for visual interest */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative z-10 mb-10">
                   <h3 className="text-2xl font-bold text-white mb-4">{plan.name}</h3>
                   <div className="flex items-baseline gap-2 mb-6">
                     <span className="text-5xl font-black text-white">{plan.price}</span>
@@ -74,26 +77,30 @@ const PricingSection = () => {
                   <p className="text-muted-foreground leading-relaxed">{plan.description}</p>
                 </div>
 
-                <div className="space-y-5 mb-10 flex-grow">
+                <div className="relative z-10 space-y-5 mb-10 flex-grow">
                   {plan.features.map((feature, j) => (
                     <div key={j} className="flex items-center gap-4">
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center bg-accent/10 shrink-0">
-                        <Check className="w-3.5 h-3.5 text-accent" />
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${
+                        plan.highlight ? "bg-accent/20" : "bg-accent/10"
+                      }`}>
+                        <Check className={`w-3.5 h-3.5 ${plan.highlight ? "text-accent" : "text-accent/80"}`} />
                       </div>
                       <span className="text-white/80 font-medium">{feature}</span>
                     </div>
                   ))}
                 </div>
 
-                <button
-                  className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
-                    plan.highlight
-                      ? "bg-accent text-white shadow-lg hover:scale-[1.02] active:scale-[0.98]"
-                      : "bg-white/10 text-white hover:bg-white/20"
-                  }`}
-                >
-                  {plan.button_text}
-                </button>
+                <div className="relative z-10">
+                  <button
+                    className={`w-full py-4 rounded-xl font-bold text-lg transition-all duration-300 ${
+                      plan.highlight
+                        ? "bg-accent text-white shadow-lg hover:scale-[1.02] active:scale-[0.98]"
+                        : "bg-white/10 text-white hover:bg-accent/20 border border-transparent hover:border-accent/30"
+                    }`}
+                  >
+                    {plan.button_text}
+                  </button>
+                </div>
               </motion.div>
             ))}
           </div>
