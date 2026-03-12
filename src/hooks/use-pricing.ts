@@ -26,7 +26,13 @@ export const usePricingPlans = () => {
         return null;
       }
       
-      return data as PricingPlan[];
+      // Ensure price is formatted correctly if it's a number from the DB
+      return data.map(plan => ({
+        ...plan,
+        price: typeof plan.price === 'number' ? `$${plan.price}` : plan.price,
+        button_text: plan.button_text || "Get Started",
+        highlight: !!plan.highlight
+      })) as PricingPlan[];
     },
   });
 };
