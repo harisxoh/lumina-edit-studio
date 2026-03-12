@@ -36,7 +36,7 @@ const Navbar = () => {
         </button>
         
         <div className="flex items-center gap-4 md:gap-8">
-          <div className="hidden sm:flex items-center gap-6 md:gap-10 mr-4">
+          <div className="flex items-center gap-4 md:gap-6 mr-4">
             <button 
               onClick={() => scrollTo("work")} 
               className="label-text text-muted-foreground hover:text-white transition-colors whitespace-nowrap"
